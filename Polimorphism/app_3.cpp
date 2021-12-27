@@ -1,103 +1,103 @@
 #include <iostream>
+#include <string>
+
 using namespace std; 
 
-// Definicja klasy bazowej Pracownik:
+// Definicja klasy bazowej:
 class Pracownik {
 public:
-	string imie, nazwisko;
-	// Prototyp metody publicznej zwrocDane():
+	// Prototyp metody publicznej:
 	void zwrocDane(); 
 };
-// Definicja klasy pochodnej Nauczyciel:
+
+// Definicja klasy pochodnej:
 class Nauczyciel: public Pracownik {
 public:	
-	string przedmiot;
-	// Prototyp metody publicznej zwrocDane():
+	// Prototyp metody publicznej:
 	void zwrocDane();	
 };
-// Definicja klasy pochodnej Wychowawca:
+
+// Definicja klasy pochodnej:
 class Wychowawca: public Nauczyciel {
 public:	
-	string klasa;
-	// Prototyp metody publicznej zwrocDane():
+	// Prototyp metody publicznej:
 	void zwrocDane();	
 };
 /* UWAGA
- * W każdej z klas wchodzących w skład łańcucha dziedziczenia zadeklarowano metodę zwrocDane() - o takiej samej nazwie,  
- * identycznych parametrach (liczbie i typie) oraz typie zwracanej wartości.
+ * W każdej z klas wchodzących w skład struktury dziedziczenia zadeklarowano metodę publiczną 
+ * o takiej samej nazwie, identycznych parametrach (liczbie i typie) oraz typie zwracanej wartości.
+ * 
+ * Jednocześnie, w żadnej z tych klas wchodzących nie zadeklarowano metody wirtualnej (virtual).
  */
-// Definicje metod instancyjnych zwrocDane():		
+
+// Definicje metod publicznych, które zostały zadeklarowane w klasach zdefiniowanych powyżej:		
 void Pracownik::zwrocDane() {
-	cout << "Wywołanie metody zwrocDane() zdefiniowanej w klasie Pracownik" << endl;
-	cout << "Imię: " << imie << endl;
-	cout << "Nazwisko: " << nazwisko << endl;
+	cout << "Dane zwrócone przez metodę z klasy Pracownik" << endl;
 }
 void Nauczyciel::zwrocDane() {
-	cout << "Wywołanie metody zwrocDane() zdefiniowanej w klasie Nauczyciel" << endl;
-	cout << "Imię: " << imie << endl;
-	cout << "Nazwisko: " << nazwisko << endl;
-	cout << "Przedmiot: " << przedmiot << endl;	
+	cout << "Dane zwrócone przez metodę z klasy Nauczyciel" << endl;
 }
 void Wychowawca::zwrocDane() {
-	cout << "Wywołanie metody zwrocDane() zdefiniowanej w klasie Wychowawca" << endl;
-	cout << "Imię: " << imie << endl;
-	cout << "Nazwisko: " << nazwisko << endl;
-	cout << "Przedmiot: " << przedmiot << endl;
-	cout << "Klasa:" << klasa << endl;
+	cout << "Dane zwrócone przez metodę z klasy Wychowawca" << endl;
 }
 /* UWAGA
- * Implementacja (i co za tym idzie funkcjonalność) każdej ze zdefiniowanych metod zwrocDane() jest dowolna.
+ * Jak wspomniano powyżej, w każdej z klas struktury dziedziczenia zdefiniowano metodę, 
+ * która ma identyczną nazwę, identyczną liczbę i typ parametrów (tutaj: brak parametrów)
+ * oraz typ zwracanej wartości.
+ * Jednakże, implementacja (i co za tym idzie funkcjonalność) każdej z tych metod jest dowolna.
  */
 	
 int main() {
-	// Deklaracja wskaźnika typu statycznego w_pracownik:
-	Pracownik *w_pracownik;
+	// Deklaracja wskaźnika typu (statycznego) Pracownik:
+	Pracownik *wsk_pracownik;
 	/* UWAGA
-	 * Zmienna w_pracownik jest zmienną statyczną, która może wskazywać (z definicji) na obiekty typu bazowego Pracownik
-	 * oraz obiekty klas pochodnych klasy Pracownik, czyli obiekty klas Nauczyciel i Wychowawca.
-	 */ 		
+	 * Zmienna wsk_pracownik jest zmienną statyczną, która może wskazywać (z definicji) na obiekty
+	 * typu Pracownik oraz obiekty klas pochodnych klasy Pracownik, czyli obiekty klas Nauczyciel 
+	 * i Wychowawca.
+	 * 
+	 * Powyższe wynika z ważnej cechy ogólnej programowania obiektowego:
+	 * "wskaźnik typu statycznego klasy podstawowej (tutaj Pracownik) może wskazywać na obiekty 
+	 * klas pochodnych tej klasy bazowej (tutaj: Nauczyciel i Wychowawca)".
+	 */	
+		
 	// Utworzenie obiektu pracownik1, jako instancji klasy Pracownik:
-	Pracownik pracownik1;	
-	// Przypisanie wskaźnikowi w_pracownik adresu obiektu pracownik1:
-	w_pracownik = &pracownik1;
-	// Nadanie wartości zmiennym członkowskim obiektu pracownik1:
-	w_pracownik->imie = "Jan";
-	w_pracownik->nazwisko = "Kowalski";
-	// Wywołanie metody zwrocDane():
-	w_pracownik->zwrocDane(); // zostaje wywołana metoda z klasy bazowej Pracownik
-	cout << endl;
+	Pracownik pracownik1 = Pracownik(); // lub krótko: Pracownik pracownik1;
+	/* UWAGA
+	 * Obiekt pracownik1 został utworzony jako skutek wywołania konstruktora domyślnego.
+	 */	
+	
+	// Przypisanie wskaźnikowi adresu obiektu pracownik1:
+	wsk_pracownik = &pracownik1;			
+	wsk_pracownik->zwrocDane(); // zostanie wywołana metoda z klasy bazowej Pracownik
 	
 	// Utworzenie obiektu pracownik2, jako instancji klasy Nauczyciel:
-	Nauczyciel pracownik2;	
-	w_pracownik = &pracownik2;
-	// Nadanie wartości wybranym zmiennym członkowskim obiektu pracownik2:
-	w_pracownik->imie = "Adam";
-	w_pracownik->nazwisko = "Nowak";
+	Nauczyciel pracownik2 = Nauczyciel(); // lub krótko: Nuaczyciel pracownik2;
+	// Przypisanie wskaźnikowi adresu obiektu pracownik2:
+	wsk_pracownik = &pracownik2;			
+	wsk_pracownik->zwrocDane(); // zostanie wywołana metoda z klasy bazowej Pracownik
 	/* UWAGA
-	 * Użycie dereferencji w_pracownik-> pozwala jedynie na uzyskanie dostępu do elementów członkowskich klasy Nauczyciel
-	 * odziedziczonych od klasy bazowej Pracownik (czyli zmiennych imie, nazwisko).
-	 * Dostęp do elementów członkowskich zdefiniowanych bezpośrednio w klasie pochodnej Nauczyciel nie jest możliwy.
-	 * Tym samym, próba wykonania instrukcji przypisania: w_pracownik->przedmiot = "Informatyka";
-	 * zakończy się komunikatem o błędzie i informacją, że klasa Pracownik nie zawiera elementu członkowskiego przedmiot.
-	 */	
-	// Wywołanie metody zwrocDane():
-	w_pracownik->zwrocDane(); // zostaje wywołana metoda odziedziczona z klasy bazowej Pracownik	
-	cout << endl;
+	 * Pytanie: 
+	 * dlaczego została wywołana metoda zwrocDane() zdefiniowana w klasie bazowej Pracownik,
+	 * a nie w klasie pochodnej Nauczyciel?
+	 * Odpowiedź:
+	 * Jeżeli daną metodę w klasie bazowej, która ma być przesłonięta (overriding) w klasie 
+	 * pochodnej nie zdefiniowano jako wirtualnej, wówczas kompilator już na etapie kompilacji
+	 * ustali do wykonania metodę zdefiniowaną w klasie zgodnej z typem statycznym wskaźnika 
+	 * (tutaj Pracownik) - czyli metodę zdefiniowaną w klasie bazowej Pracownik.
+	 * Innymi słowy, jeśli metoda w klasie bazowej nie jest witualna, to przypisanie (wybór) metody 
+	 * do wykonania następuje już na etapie kompilacji. Decyduje o tym typ statyczny wskaźnika.		
+	 * 
+	 * Powiązanie wskaźnika z jego typem statycznym nazywa się wiązaniem statycznym
+	 * (static linkage) lub inaczej wiązaniem wczesnym (early binding) - polimorfizm w czasie
+	 * kompilacji (compile-time binding).
+	 */
 	
 	// Utworzenie obiektu pracownik3, jako instancji klasy Wychowawca:
-	Wychowawca pracownik3;	
-	w_pracownik = &pracownik3;
-	// Nadanie wartości wybranym zmiennym członkowskim obiektu pracownik2:
-	w_pracownik->imie = "Jan";
-	w_pracownik->nazwisko = "Polski";
-	// w_pracownik->przedmiot = "Informatyka"; INSTRUKCJA BŁĘDNA!
-	// w_pracownik->klasa = "3A"; INSTRUKCJA BŁĘDNA!
-
-	// Wywołanie metody zwrocDane():	
-	w_pracownik->zwrocDane(); // zostaje wywołana metoda odziedziczona z klasy bazowej Pracownik
+	Wychowawca pracownik3 = Wychowawca(); // lub krótko: Wychowawca pracownik3;
+	// Przypisanie wskaźnikowi adresu obiektu pracownik3:
+	wsk_pracownik = &pracownik3;	
+	wsk_pracownik->zwrocDane(); // zostanie wywołana metoda z klasy bazowej Pracownik
 		
 	return 0;
 }
-/* UWAGA
- * W programie nie zachodzi zjawisko polimorfizmu !!!
- */
+
